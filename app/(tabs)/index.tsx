@@ -31,7 +31,7 @@ export default function TabOneScreen() {
         </Link>
       </View>
       <View>
-        <Link key={"pedia"} href="/reanimation${"pediatric"}" asChild>
+        <Link key={"pedia"} href="/reanimation" asChild>
           <Button style={styles.button} variant="solid" action="negative">
             <FontAwesome5
                 name="baby"
