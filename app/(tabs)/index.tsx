@@ -11,14 +11,22 @@ import {
 } from "@/components/ui/button"
 import Colors from "@/constants/Colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import React from "react";
+import React, {useEffect} from "react";
 import {FontAwesome5} from "@expo/vector-icons";
 import {Link} from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 export default function TabOneScreen() {
+
+  useEffect(() => {
+    async function reset() {
+      await AsyncStorage.setItem('noflow', '0');
+    }
+    reset();
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.button_container}>
-        <Link key={"adult"} href={"/reanimation"} asChild>
+        <Link key={"adult"} href={"/reanimation?type=adult"} asChild>
         <Button style={styles.button} variant="solid" action="negative" >
           <FontAwesome5
               name="user"
@@ -31,7 +39,7 @@ export default function TabOneScreen() {
         </Link>
       </View>
       <View>
-        <Link key={"pedia"} href="/reanimation" asChild>
+        <Link key={"pedia"} href="/reanimation?type=pediatric" asChild>
           <Button style={styles.button} variant="solid" action="negative">
             <FontAwesome5
                 name="baby"
