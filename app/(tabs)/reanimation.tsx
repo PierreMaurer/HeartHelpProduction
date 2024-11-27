@@ -12,6 +12,8 @@ import {FontAwesome5} from "@expo/vector-icons";
 import React from "react";
 import CounterComponent from "@/components/ui/CounterComponent";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SyntheseComponent from "@/components/ui/synthese";
+import CounterDSAComponent from "@/components/ui/CounterDSAComponent";
 
 export default function Reanimation() {
     const  searchParams = useSearchParams();
@@ -23,10 +25,8 @@ export default function Reanimation() {
                 <TimeCounterComponent type={false}></TimeCounterComponent>
                 <TimeCounterComponent type={true}></TimeCounterComponent>
             </View>
-            <Button style={styles.synthesebutton} variant="solid" action="primary" className={"mt-5"}>
-                <FontAwesome5 name="newspaper" size={24} color="white" />
-                <ButtonText>Ouvrir la synthèse</ButtonText>
-            </Button>
+            <SyntheseComponent></SyntheseComponent>
+            <CounterDSAComponent></CounterDSAComponent>
         </View>
     );
 }

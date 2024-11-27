@@ -20,6 +20,7 @@ export default function TabOneScreen() {
   useEffect(() => {
     async function reset() {
       await AsyncStorage.setItem('noflow', '0');
+      await AsyncStorage.setItem('lowflow', '0');
     }
     reset();
   }, []);
