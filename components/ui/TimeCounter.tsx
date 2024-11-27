@@ -12,6 +12,7 @@ import {Input, InputField} from "@/components/ui/input";
 export default function TimeCounterComponent(props: { type: boolean }) {
     const [time, setTime] = useState<number>(0);
     const [showModal, setShowModal] = useState<boolean>(false);
+    const [newTime, setNewTime] = useState<number>(0);
     useEffect(() => {
         if (props.type) {
         const timer = setInterval(async () => {
@@ -27,8 +28,12 @@ export default function TimeCounterComponent(props: { type: boolean }) {
         }
     }, []);
 
-    async function onPress() {
-        console.log(await AsyncStorage.getItem('noflow'));
+    async function submitNewTime() {
+        if (newTime > 0) {
+            await AsyncStorage.setItem(props.type ? 'noflow' : 'lowflow', newTime.toString());
+            setTime(newTime);
+            setShowModal(false);
+        }
     }
     return (
         <VStack
@@ -62,7 +67,7 @@ export default function TimeCounterComponent(props: { type: boolean }) {
                     </ModalHeader>
                     <ModalBody>
                         <Input>
-                            <InputField type={"text"} placeholder={"2"}/>
+                            <InputField defaultValue={time.toString()} onChangeText={text => setNewTime(text) } type={"text"} placeholder={"2"}/>
                         </Input>
                     </ModalBody>
                     <ModalFooter>
@@ -79,7 +84,7 @@ export default function TimeCounterComponent(props: { type: boolean }) {
                             variant="solid"
                             action="positive"
                             onPress={() => {
-                                setShowModal(false)
+                                submitNewTime();
                             }}
                         >
                             <ButtonText>Modifier</ButtonText>
