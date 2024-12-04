@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Platform, StyleSheet } from 'react-native';
+import {Platform, ScrollView, StyleSheet} from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
@@ -7,9 +7,7 @@ import {useRouter} from "expo-router";
 import {useSearchParams} from "expo-router/build/hooks";
 import {VStack} from "@/components/ui/vstack";
 import TimeCounterComponent from "@/components/ui/TimeCounter";
-import {Button, ButtonText} from "@/components/ui/button";
-import {FontAwesome5} from "@expo/vector-icons";
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
 import CounterComponent from "@/components/ui/CounterComponent";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import SyntheseComponent from "@/components/ui/synthese";
@@ -18,24 +16,32 @@ import CounterDSAComponent from "@/components/ui/CounterDSAComponent";
 export default function Reanimation() {
     const  searchParams = useSearchParams();
     const type = searchParams.get('type');
-    console.log(type)
+    const [adrenaline, setAdrenaline] = useState<number>(0)
+    const scrollViewRef = useRef<ScrollView>(null);
+
+    useEffect(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+    }, [adrenaline]);
     return (
-        <View style={styles.container} >
+        <ScrollView ref={scrollViewRef} contentContainerStyle={styles.container}>
             <View className={"flex-row"}>
                 <TimeCounterComponent type={false}></TimeCounterComponent>
                 <TimeCounterComponent type={true}></TimeCounterComponent>
             </View>
             <SyntheseComponent></SyntheseComponent>
             <CounterDSAComponent></CounterDSAComponent>
-        </View>
+            <CounterComponent nameInjection={"Adrenaline"} time_number={10000} timer={true}></CounterComponent>
+            <CounterComponent nameInjection={"Amiodarone"} time_number={1000} timer={false}></CounterComponent>
+        </ScrollView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        paddingTop: 200,
     },
     title: {
         fontSize: 20,

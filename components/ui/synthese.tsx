@@ -16,12 +16,16 @@ import {
 } from "@/components/ui/modal";
 import {Heading} from "@/components/ui/heading";
 import {CloseIcon, Icon} from "@/components/ui/icon";
+import {number} from "prop-types";
 
 export default function SyntheseComponent() {
     const [showModal, setShowModal] = React.useState<boolean>(false);
     const [lowFlow, setLowFlow] = React.useState<string>('0');
     const [noflow, setNoFlow] = React.useState<string>('0');
-
+    const [adrenaline, setAdrenaline] = React.useState<string>('0');
+    const [adrenalineHistory, setAdrenalineHistory] = React.useState<any[]>([]);
+    const [amiodarone, setAmiodarone] = React.useState<string>('0');
+    const [amiodaroneHistory, setAmiodaroneHistory] = React.useState<any[]>([]);
     useEffect(() => {
         const getData = async () => {
             try {
@@ -32,6 +36,22 @@ export default function SyntheseComponent() {
                 const noflowAsync = await AsyncStorage.getItem('noflow');
                 if (noflowAsync !== null) {
                     setNoFlow(noflowAsync);
+                }
+                const adrenaline_get = await AsyncStorage.getItem('Adrenaline');
+                if (adrenaline_get !== null) {
+                    setAdrenaline(adrenaline_get);
+                }
+                const adrenalineHistory_get = await AsyncStorage.getItem('Adrenaline_history');
+                if (adrenalineHistory_get !== null) {
+                    setAdrenalineHistory(JSON.parse(adrenalineHistory_get));
+                }
+                const amiodarone_get = await AsyncStorage.getItem('Amiodarone');
+                if (amiodarone_get !== null) {
+                    setAmiodarone(amiodarone_get);
+                }
+                const amiodaroneHistory_get = await AsyncStorage.getItem('Amiodarone_history');
+                if (amiodaroneHistory_get !== null) {
+                    setAmiodaroneHistory(JSON.parse(amiodaroneHistory_get));
                 }
             } catch (e) {
                 console.log(e);
@@ -69,6 +89,20 @@ export default function SyntheseComponent() {
                     <ModalBody>
                         <Text>NoFlow : {noflow}</Text>
                         <Text>LowFlow : {lowFlow}</Text>
+                        <Text>Adrenaline : {adrenaline}</Text>
+                        {adrenalineHistory.length > 0 && <Text>Historique de l'adrenaline :</Text>}
+                        {adrenalineHistory.map((history, index)  => {
+                            return (
+                                <Text key={index}>Injection N°{index + 1} - {history.time} : {history.dosage}mg</Text>
+                            )
+                        })}
+                        <Text>Amiodarone : {amiodarone}</Text>
+                        {amiodaroneHistory.length > 0 && <Text>Historique de l'amiodarone :</Text>}
+                        {amiodaroneHistory.map((history, index)  => {
+                            return (
+                                <Text key={index}>Injection N°{index + 1} - {history.time} : {history.dosage}mg</Text>
+                            )
+                        })}
                     </ModalBody>
                     <ModalFooter>
                         <Button
@@ -78,13 +112,7 @@ export default function SyntheseComponent() {
                                 setShowModal(false)
                             }}
                         >
-                            <ButtonText>Annuler</ButtonText>
-                        </Button>
-                        <Button
-                            variant="solid"
-                            action="positive"
-                        >
-                            <ButtonText>Modifier</ButtonText>
+                            <ButtonText>Fermer</ButtonText>
                         </Button>
                     </ModalFooter>
                 </ModalContent>

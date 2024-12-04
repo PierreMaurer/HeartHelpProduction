@@ -1,13 +1,8 @@
 import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import {
   Button,
   ButtonText,
-  ButtonSpinner,
-  ButtonIcon,
-  ButtonGroup,
 } from "@/components/ui/button"
 import Colors from "@/constants/Colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -15,15 +10,19 @@ import React, {useEffect} from "react";
 import {FontAwesome5} from "@expo/vector-icons";
 import {Link} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 export default function TabOneScreen() {
 
   useEffect(() => {
     async function reset() {
       await AsyncStorage.setItem('noflow', '0');
       await AsyncStorage.setItem('lowflow', '0');
+      await AsyncStorage.setItem('adrenaline_name', "Adrenaline")
+      await AsyncStorage.setItem('adrenaline_timer', '6');
     }
     reset();
   }, []);
+
   return (
     <View style={styles.container}>
       <View style={styles.button_container}>
