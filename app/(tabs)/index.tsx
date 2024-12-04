@@ -6,25 +6,32 @@ import {
 } from "@/components/ui/button"
 import Colors from "@/constants/Colors";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {FontAwesome5} from "@expo/vector-icons";
 import {Link} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import EditScreenInfo from "@/components/EditScreenInfo";
+import InfoLegalComponent from "@/components/InfoLegalComponent";
 
 export default function TabOneScreen() {
-
+  const [firstOpening, setFirstOpening] = useState<any>(true);
   useEffect(() => {
     async function reset() {
       await AsyncStorage.setItem('noflow', '0');
       await AsyncStorage.setItem('lowflow', '0');
-      await AsyncStorage.setItem('adrenaline_name', "Adrenaline")
-      await AsyncStorage.setItem('adrenaline_timer', '6');
-    }
+      await AsyncStorage.setItem('Adrenaline_name', "Adrenaline")
+      await AsyncStorage.setItem('Adrenaline_timer', '6');
+      await AsyncStorage.setItem('Adrenaline_history', "")
+      await AsyncStorage.setItem('Amiodarone_name', "Amiodarone")
+      await AsyncStorage.setItem('Amiodarone_history', "")
+      await AsyncStorage.setItem('Amiodarone_timer', '0');
+      }
     reset();
   }, []);
 
   return (
     <View style={styles.container}>
+      <InfoLegalComponent />
       <View style={styles.button_container}>
         <Link key={"adult"} href={"/reanimation?type=adult"} asChild>
         <Button style={styles.button} variant="solid" action="negative" >
@@ -38,6 +45,7 @@ export default function TabOneScreen() {
         </Button>
         </Link>
       </View>
+
       <View>
         <Link key={"pedia"} href="/reanimation?type=pediatric" asChild>
           <Button style={styles.button} variant="solid" action="negative">
