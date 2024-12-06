@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Link, Tabs } from 'expo-router';
 import { Pressable, Text } from 'react-native';
@@ -7,6 +7,7 @@ import Svg, { Ellipse } from 'react-native-svg';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import TabOneScreen from "@/app/(tabs)/index";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function TabBarIcon(props: {
     name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -15,9 +16,20 @@ function TabBarIcon(props: {
     return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;
 }
 
+
 export default function TabLayout() {
     const colorScheme = useColorScheme();
-
+    async function reset() {
+        await AsyncStorage.setItem('noflow', '0');
+        await AsyncStorage.setItem('lowflow', '0');
+        await AsyncStorage.setItem('Adrenaline_name', "Adrenaline")
+        await AsyncStorage.setItem('Adrenaline_timer', '6');
+        await AsyncStorage.setItem('Adrenaline_history', "")
+        await AsyncStorage.setItem('Amiodarone_name', "Amiodarone")
+        await AsyncStorage.setItem('Amiodarone_history', "")
+        await AsyncStorage.setItem('Amiodarone_timer', '0');
+        console.log("DOUDJ")
+    }
     return (
         <Tabs
             screenOptions={{
@@ -50,6 +62,7 @@ export default function TabLayout() {
                         {route.name != 'index' && (
                         <Link href="/(tabs)" asChild>
                             <Pressable
+                                onPress={reset}
                                 style={{
                                     position: 'absolute',
                                     top: 80,

@@ -15,10 +15,13 @@ import {Text} from "@/components/Themed";
 
 export default function InfoModalText({isOpen, setisOpen, time_elapse, setShowModalAdding, medName} : { isOpen: boolean, setisOpen: any, time_elapse: number, setShowModalAdding: any, medName: string }) {
     const handleClose = () => setisOpen(false)
+    const mmss = new Date(Number(time_elapse)).toLocaleTimeString().substring(3);
     const renew_injection = () => {
         setShowModalAdding(true);
         setisOpen(false);
     }
+
+
     return (
         <>
             <AlertDialog isOpen={isOpen} onClose={handleClose} size="md">
@@ -26,7 +29,7 @@ export default function InfoModalText({isOpen, setisOpen, time_elapse, setShowMo
                 <AlertDialogContent>
                     <AlertDialogHeader>
                         <Heading className="text-typography-950 font-semibold" size="md">
-                           Les {time_elapse} ms sont écoulées pour l'injection de {medName}
+                           Les {mmss} min sont écoulées pour l'injection de {medName}
                         </Heading>
                     </AlertDialogHeader>
                     <AlertDialogBody className="mt-3 mb-4">

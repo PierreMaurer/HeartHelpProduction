@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import {Platform, ScrollView, StyleSheet} from 'react-native';
-
+import "@/global.css";
 import EditScreenInfo from '@/components/EditScreenInfo';
 import { Text, View } from '@/components/Themed';
 import {useRouter} from "expo-router";
@@ -30,7 +30,7 @@ export default function Reanimation() {
             </View>
             <SyntheseComponent></SyntheseComponent>
             <CounterDSAComponent></CounterDSAComponent>
-            <CounterComponent nameInjection={"Adrenaline"} time_number={10000} timer={true}></CounterComponent>
+            <CounterComponent nameInjection={"Adrenaline"} time_number={240000} timer={true}></CounterComponent>
             <CounterComponent nameInjection={"Amiodarone"} time_number={1000} timer={false}></CounterComponent>
         </ScrollView>
     );

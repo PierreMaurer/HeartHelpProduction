@@ -120,16 +120,16 @@ export default function CounterComponent({nameInjection, timer, time_number }: {
                                     setShowModalAdding(false);
                                 }}
                             >
-                                <ButtonText>+ avec alarme</ButtonText>
+                                <ButtonText>Inj avec alarme</ButtonText>
                             </Button><Button
                                 variant="solid"
-                                action="positive"
+                                className={"bg-blue-600"}
                                 onPress={() => {
                                     handleAddInjection(true);
                                     setShowModalAdding(false);
                                 }}
                             >
-                                <ButtonText>+ sans alarmes</ButtonText>
+                                <ButtonText>Inj sans alarmes</ButtonText>
                             </Button></>
                         )}
                         {!timer && (

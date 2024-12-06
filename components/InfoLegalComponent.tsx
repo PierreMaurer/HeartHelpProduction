@@ -43,18 +43,17 @@ export default function InfoLegalComponent() {
                     </AlertDialogHeader>
                     <AlertDialogBody className="mt-3 mb-4">
                         <Text>
-                            Le responsable légale de HeartHelp décline toute responsabilité en cas de litige suite au informations fournis par HeartHelp.
-                            Hearthelp ne doit être utilisé que par des personnes formés à la réanimation et toutes actions doit toutes informations fournis par HeartHelp doit être
-                            doit être considéré à titre informatif et ne doit pas être utilisé comme référence médicale.
+                            Le responsable légal de HeartHelp décline toute responsabilité en cas de litige lié aux informations fournies par HeartHelp.
+                            HeartHelp doit être utilisé uniquement par des personnes formées à la réanimation, et toutes les actions ou informations fournies par HeartHelp doivent être considérées comme purement informatives. Elles ne doivent en aucun cas être utilisées comme référence médicale.
                         </Text>
                     </AlertDialogBody>
                     <AlertDialogFooter className="">
                         <Button
-                            action="negative"
+                            action="positive"
                             onPress={handleClose}
                             size="sm"
                         >
-                            <ButtonText>Non</ButtonText>
+                            <ButtonText>J'accepte</ButtonText>
                         </Button>
                     </AlertDialogFooter>
                 </AlertDialogContent>

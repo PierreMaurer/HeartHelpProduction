@@ -16,10 +16,10 @@ export default function TimeCounterComponent(props: { type: boolean }) {
     useEffect(() => {
         if (!props.type) {
         const timer = setInterval(async () => {
-            const timeasync = await AsyncStorage.getItem('noflow')
+            const timeasync = await AsyncStorage.getItem('lowflow')
             if (timeasync !== null) {
                 const value = Number(timeasync) + 1;
-                await AsyncStorage.setItem('noflow', value.toString());
+                await AsyncStorage.setItem('lowflow', value.toString());
                 setTime(value);
             }
         }, 60000);
