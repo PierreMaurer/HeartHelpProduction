@@ -156,9 +156,11 @@ export default function CounterDSAComponent() {
             className="w-full max-w-[250px] rounded-md border border-background-200 mt-5 p-2 justify-center items-center">
             <Text className={"m-3"}>Choc DSA: {choc}</Text>
             <View className={"flex-row"}>
+                {Number(choc) > 0 && (
                 <Button onPress={() => setShowRemoveDSAModal(true)} className={"max-w-[150px]"} action={"negative"}>
                     <ButtonText>Supprimer</ButtonText>
                 </Button>
+                )}
             </View>
             <Modal
                 isOpen={showRemoveDSAModal}

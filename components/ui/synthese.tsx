@@ -21,14 +21,29 @@ import {number} from "prop-types";
 export default function SyntheseComponent() {
     const [showModal, setShowModal] = React.useState<boolean>(false);
     const [lowFlow, setLowFlow] = React.useState<string>('0');
+    const [lowFlowTemoin, setLowFlowTemoin] = React.useState<string>('0');
     const [noflow, setNoFlow] = React.useState<string>('0');
     const [adrenaline, setAdrenaline] = React.useState<string>('0');
     const [adrenalineHistory, setAdrenalineHistory] = React.useState<any[]>([]);
     const [amiodarone, setAmiodarone] = React.useState<string>('0');
     const [amiodaroneHistory, setAmiodaroneHistory] = React.useState<any[]>([]);
+    const [analyse, setAnalyse] = React.useState<string>('0');
+    const [choc, setChoc] = React.useState<string>('0');
     useEffect(() => {
         const getData = async () => {
             try {
+                const lowflowTemoinAsync = await AsyncStorage.getItem('lowflowtemoin');
+                if (lowflowTemoinAsync !== null) {
+                    setLowFlowTemoin(lowflowTemoinAsync);
+                }
+                const chocAsync = await AsyncStorage.getItem('choc');
+                if (chocAsync !== null) {
+                    setChoc(chocAsync);
+                }
+                const analyseChoc = await AsyncStorage.getItem('analyse');
+                if (analyseChoc !== null) {
+                    setAnalyse(analyseChoc);
+                }
                 const lowflowAsync = await AsyncStorage.getItem('lowflow');
                 if (lowflowAsync !== null) {
                     setLowFlow(lowflowAsync);
@@ -87,20 +102,23 @@ export default function SyntheseComponent() {
                         </ModalCloseButton>
                     </ModalHeader>
                     <ModalBody>
-                        <Text>NoFlow : {noflow}</Text>
-                        <Text>LowFlow : {lowFlow}</Text>
+                        <Text>Analyse DSA : {analyse}</Text>
+                        <Text>Choc DSA : {choc}</Text>
+                        <Text>NoFlow : {noflow} min</Text>
+                        <Text>LowFlow Total: {Number(lowFlowTemoin) + Number(lowFlow)} min</Text>
+                        <Text>LowFlow par témoin : {lowFlowTemoin} min</Text>
                         <Text>Adrenaline : {adrenaline}</Text>
                         {adrenalineHistory.length > 0 && <Text>Historique de l'adrenaline :</Text>}
                         {adrenalineHistory.map((history, index)  => {
                             return (
-                                <Text key={index}>Injection N°{index + 1} - {history.time} : {history.dosage}mg</Text>
+                                <Text key={index}>Injection N°{index + 1} - {history.time}</Text>
                             )
                         })}
                         <Text>Amiodarone : {amiodarone}</Text>
                         {amiodaroneHistory.length > 0 && <Text>Historique de l'amiodarone :</Text>}
                         {amiodaroneHistory.map((history, index)  => {
                             return (
-                                <Text key={index}>Injection N°{index + 1} - {history.time} : {history.dosage}mg</Text>
+                                <Text key={index}>Injection N°{index + 1} - {history.time}</Text>
                             )
                         })}
                     </ModalBody>

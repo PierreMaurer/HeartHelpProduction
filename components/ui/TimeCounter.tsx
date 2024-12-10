@@ -8,11 +8,14 @@ import { Modal, ModalBackdrop, ModalContent, ModalHeader, ModalCloseButton, Moda
 import {Heading} from "@/components/ui/heading";
 import {CloseIcon, Icon} from "@/components/ui/icon";
 import {Input, InputField} from "@/components/ui/input";
+import {StyleSheet} from "react-native";
 
 export default function TimeCounterComponent(props: { type: boolean }) {
     const [time, setTime] = useState<number>(0);
     const [showModal, setShowModal] = useState<boolean>(false);
     const [newTime, setNewTime] = useState<number>(0);
+    const [temoinTimeEdited, setTemoinTimeEdited] = useState<number>(0);
+    const [temoinTime, setTemoinTime] = useState<number>(0);
     useEffect(() => {
         if (!props.type) {
         const timer = setInterval(async () => {
@@ -30,7 +33,13 @@ export default function TimeCounterComponent(props: { type: boolean }) {
 
     async function submitNewTime() {
         if (newTime > 0) {
-            await AsyncStorage.setItem(props.type ? 'lowflow' : 'noflow', newTime.toString());
+            if (!props.type) {
+                await AsyncStorage.setItem('lowflow', newTime.toString());
+                await AsyncStorage.setItem('lowflowtemoin', temoinTimeEdited.toString());
+                setTemoinTime(temoinTimeEdited);
+            } else {
+                await AsyncStorage.setItem('noflow', newTime.toString());
+            }
             setTime(newTime);
             setShowModal(false);
         }
@@ -39,7 +48,7 @@ export default function TimeCounterComponent(props: { type: boolean }) {
         <VStack
             className="w-full max-w-[160px] rounded-md border border-background-200 p-4 justify-center align-middle flex-1">
             <Text>{props.type ? "No Flow" : "Low Flow"}</Text>
-            <Text> {time} Minutes</Text>
+            <Text> {props.type ? time : (Number(time) + Number(temoinTime))} Minutes</Text>
             <Button onPress={() => setShowModal(true)} size="md" variant="solid" action="primary" className={"mt-5"}>
                 <FontAwesome5 name="pen" size={15} color="white"/>
                 <ButtonText>Modifier</ButtonText>
@@ -65,11 +74,26 @@ export default function TimeCounterComponent(props: { type: boolean }) {
                             />
                         </ModalCloseButton>
                     </ModalHeader>
+                    {!props.type && (
                     <ModalBody>
-                        <Input>
-                            <InputField defaultValue={time.toString()} onChangeText={text => setNewTime(text) } type={"text"} placeholder={"2"}/>
-                        </Input>
+
+                            <Text>Temps de massage SP</Text>
+                            <Input>
+                                <InputField defaultValue={time.toString()} onChangeText={text => setNewTime(text) } type={"text"} placeholder={"2"}/>
+                            </Input>
+                            <Text style={styles.input_container}>Temps de massage par témoins</Text>
+                            <Input style={styles.input_container}>
+                                <InputField defaultValue={time.toString()} onChangeText={text => setTemoinTimeEdited(text) } type={"text"} placeholder={"2"}/>
+                            </Input>
                     </ModalBody>
+                    )}
+                    {props.type && (
+                        <ModalBody>
+                            <Input>
+                                <InputField defaultValue={time.toString()} onChangeText={text => setNewTime(text) } type={"text"} placeholder={"2"}/>
+                            </Input>
+                        </ModalBody>
+                    )}
                     <ModalFooter>
                         <Button
                             variant="solid"
@@ -95,3 +119,10 @@ export default function TimeCounterComponent(props: { type: boolean }) {
         </VStack>
     )
 }
+
+const styles = StyleSheet.create({
+    input_container: {
+        paddingTop: 10,
+    }
+});
+

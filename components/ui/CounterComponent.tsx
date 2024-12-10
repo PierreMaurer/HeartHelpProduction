@@ -17,36 +17,62 @@ import {Heading} from "@/components/ui/heading";
 import {CloseIcon, Icon} from "@/components/ui/icon";
 import { Audio } from 'expo-av';
 import InfoModalText from "@/components/ui/InfoModalText";
+import * as Notifications from 'expo-notifications';
 interface Injection {
     time: string;
     dosage: number;
 }
 
 export default function CounterComponent({nameInjection, timer, time_number }: { nameInjection: string, timer: boolean, time_number: number }) {
+
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showModalAdding, setShowModalAdding] = useState<boolean>(false);
-    const [sound, setSound] = useState()
+    const [sound, setSound] = useState<Audio.Sound | undefined>(undefined);
     const [injections, setInjections] = useState<Injection[]>([]);
     const [cancelAlarm, setCancelAlarm] = useState<boolean>(false);
     const [numberInjection, setAdrenaline] = useState<number>(0);
     const [isModalAlarm, setIsModalAlarm] = useState<boolean>(false);
+    const mmss = new Date(Number(time_number)).toLocaleTimeString().substring(3);
 
-    const handleAddInjection = (request_timer: boolean) => {
+    Notifications.setNotificationHandler({
+        handleNotification: async () => ({
+            shouldShowAlert: true,
+            shouldPlaySound: true,
+            shouldSetBadge: true,
+        }),
+    });
+
+    const handleAddInjection = async (request_timer: boolean) => {
         const currentTime = new Date().toLocaleTimeString();
         const newInjection = { time: currentTime, dosage: 1 }; // Assuming each injection has a dosage of 1
         setInjections([...injections, newInjection]);
         setAdrenaline(numberInjection + 1);
         if (timer && request_timer) {
             setTimeout(async () => {
-                const sound = await Audio.Sound.createAsync(require('../../assets/sounds/alarm.mp3')
-                );
+                await Audio.setAudioModeAsync({
+                    playsInSilentModeIOS: true,
+                });
+
+                const { sound } = await Audio.Sound.createAsync(require('../../assets/sounds/alarm.mp3'));
+                await sound.setVolumeAsync(1.0);
                 setSound(sound);
                 if (!cancelAlarm) {
                     console.log("Alarm");
-                    await sound.sound.playAsync();
+                    await Notifications.scheduleNotificationAsync({
+                        content: {
+                            title: 'Injection de ' + nameInjection,
+                            body: "Les " + mmss + " minutes sont écoulées ",
+                            vibrate: [1000, 1000, 1000],
+                            sound: 'alarm.mp3',
+                            interruptionLevel: 'critical',
+                            priority: 'high'
+                        },
+                        trigger: null,
+                    });
+                    //await sound.playAsync();
                     setIsModalAlarm(true);
                 } else {
-                    setCancelAlarm(false)
+                    setCancelAlarm(false);
                 }
             }, time_number);
         }
@@ -71,6 +97,7 @@ export default function CounterComponent({nameInjection, timer, time_number }: {
         setIsModalAlarm(false);
         setShowModalAdding(true);
     }
+
     return (
         <VStack
             className="w-full max-w-[250px] rounded-md border border-background-200 mt-5 p-2 justify-center items-center">

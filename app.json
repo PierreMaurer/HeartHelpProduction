@@ -15,7 +15,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.pierremaurer.HeartHelp"
+      "bundleIdentifier": "com.pierremaurer.HeartHelp",
+      "appleTeamId": "J3J84B3HRA",
+      "infoPlist": {
+        "NSCriticalAlertsUsageDescription": "Nous utilisons des alertes critiques pour notifier des urgences importantes."
+      },
+      "entitlements": {
+        "com.apple.developer.usernotifications.critical-alerts": true
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -38,6 +45,14 @@
         "expo-audio",
         {
           "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "sounds": [
+            "./assets/sounds/alarm.mp3"
+          ]
         }
       ]
     ],

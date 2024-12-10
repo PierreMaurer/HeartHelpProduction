@@ -19,6 +19,10 @@ export default function TabOneScreen() {
     async function reset() {
       await AsyncStorage.setItem('noflow', '0');
       await AsyncStorage.setItem('lowflow', '0');
+      await AsyncStorage.setItem('lowflowtemoin', '0');
+      await AsyncStorage.setItem('choc', '0');
+      await AsyncStorage.setItem('analyse', '0');
+
       await AsyncStorage.setItem('Adrenaline_name', "Adrenaline")
       await AsyncStorage.setItem('Adrenaline_timer', '6');
       await AsyncStorage.setItem('Adrenaline_history', "")
