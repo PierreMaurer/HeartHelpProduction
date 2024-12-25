@@ -12,8 +12,6 @@ import * as Device from 'expo-device'
 import { useColorScheme } from '@/components/useColorScheme';
 import {Platform} from "react-native";
 import Constants from 'expo-constants'
-import {SchedulableTriggerInputTypes} from "expo-notifications";
-import {tls} from "node-forge";
 
 
 export {

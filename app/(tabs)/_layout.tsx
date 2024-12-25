@@ -6,7 +6,6 @@ import Svg, { Ellipse } from 'react-native-svg';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
-import TabOneScreen from "@/app/(tabs)/index";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function TabBarIcon(props: {
@@ -82,7 +81,7 @@ export default function TabLayout() {
                         </Link> )}
 
                         {route.name === 'index' && (
-                            <Link href="/(tabs)" asChild>
+                            <Link href="/settings" asChild>
                                 <Pressable
                                     style={{
                                         position: 'absolute',

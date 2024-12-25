@@ -83,7 +83,7 @@ export default function TimeCounterComponent(props: { type: boolean }) {
                             </Input>
                             <Text style={styles.input_container}>Temps de massage par témoins</Text>
                             <Input style={styles.input_container}>
-                                <InputField defaultValue={time.toString()} onChangeText={text => setTemoinTimeEdited(text) } type={"text"} placeholder={"2"}/>
+                                <InputField defaultValue={temoinTime.toString()} onChangeText={text => setTemoinTimeEdited(text) } type={"text"} placeholder={"2"}/>
                             </Input>
                     </ModalBody>
                     )}

@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/modal";
 import {Heading} from "@/components/ui/heading";
 import {CloseIcon, Icon} from "@/components/ui/icon";
-import { Audio } from 'expo-av';
 import InfoModalText from "@/components/ui/InfoModalText";
 import * as Notifications from 'expo-notifications';
 interface Injection {
@@ -27,7 +26,6 @@ export default function CounterComponent({nameInjection, timer, time_number }: {
 
     const [showModal, setShowModal] = useState<boolean>(false);
     const [showModalAdding, setShowModalAdding] = useState<boolean>(false);
-    const [sound, setSound] = useState<Audio.Sound | undefined>(undefined);
     const [injections, setInjections] = useState<Injection[]>([]);
     const [cancelAlarm, setCancelAlarm] = useState<boolean>(false);
     const [numberInjection, setAdrenaline] = useState<number>(0);
@@ -49,13 +47,6 @@ export default function CounterComponent({nameInjection, timer, time_number }: {
         setAdrenaline(numberInjection + 1);
         if (timer && request_timer) {
             setTimeout(async () => {
-                await Audio.setAudioModeAsync({
-                    playsInSilentModeIOS: true,
-                });
-
-                const { sound } = await Audio.Sound.createAsync(require('../../assets/sounds/alarm.mp3'));
-                await sound.setVolumeAsync(1.0);
-                setSound(sound);
                 if (!cancelAlarm) {
                     console.log("Alarm");
                     await Notifications.scheduleNotificationAsync({
@@ -69,7 +60,6 @@ export default function CounterComponent({nameInjection, timer, time_number }: {
                         },
                         trigger: null,
                     });
-                    //await sound.playAsync();
                     setIsModalAlarm(true);
                 } else {
                     setCancelAlarm(false);
