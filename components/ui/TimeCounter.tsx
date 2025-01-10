@@ -23,6 +23,7 @@ export default function TimeCounterComponent(props: { type: boolean }) {
             if (timeasync !== null) {
                 const value = Number(timeasync) + 1;
                 await AsyncStorage.setItem('lowflow', value.toString());
+                setNewTime(value);
                 setTime(value);
             }
         }, 60000);
@@ -32,7 +33,6 @@ export default function TimeCounterComponent(props: { type: boolean }) {
     }, []);
 
     async function submitNewTime() {
-        if (newTime > 0) {
             if (!props.type) {
                 await AsyncStorage.setItem('lowflow', newTime.toString());
                 await AsyncStorage.setItem('lowflowtemoin', temoinTimeEdited.toString());
@@ -42,11 +42,10 @@ export default function TimeCounterComponent(props: { type: boolean }) {
             }
             setTime(newTime);
             setShowModal(false);
-        }
     }
     return (
         <VStack
-            className="w-full max-w-[160px] rounded-md border border-background-200 p-4 justify-center align-middle flex-1">
+            className=" w-full max-w-[160px] rounded-md border border-background-200 p-4 justify-center align-middle flex-1 m-2">
             <Text>{props.type ? "No Flow" : "Low Flow"}</Text>
             <Text> {props.type ? time : (Number(time) + Number(temoinTime))} Minutes</Text>
             <Button onPress={() => setShowModal(true)} size="md" variant="solid" action="primary" className={"mt-5"}>

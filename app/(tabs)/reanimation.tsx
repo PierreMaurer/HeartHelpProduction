@@ -1,17 +1,14 @@
-import { StatusBar } from 'expo-status-bar';
-import {Platform, ScrollView, StyleSheet} from 'react-native';
+
+import { ScrollView, StyleSheet} from 'react-native';
 import "@/global.css";
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-import {useRouter} from "expo-router";
+import { View } from '@/components/Themed';
 import {useSearchParams} from "expo-router/build/hooks";
-import {VStack} from "@/components/ui/vstack";
 import TimeCounterComponent from "@/components/ui/TimeCounter";
 import React, {useEffect, useRef, useState} from "react";
 import CounterComponent from "@/components/ui/CounterComponent";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import SyntheseComponent from "@/components/ui/synthese";
 import CounterDSAComponent from "@/components/ui/CounterDSAComponent";
+import {HStack} from "@/components/ui/hstack";
 
 export default function Reanimation() {
     const  searchParams = useSearchParams();
@@ -24,10 +21,10 @@ export default function Reanimation() {
     }, [adrenaline]);
     return (
         <ScrollView ref={scrollViewRef} contentContainerStyle={styles.container}>
-            <View className={"flex-row"}>
+            <HStack className={"flex-row"}>
                 <TimeCounterComponent type={false}></TimeCounterComponent>
                 <TimeCounterComponent type={true}></TimeCounterComponent>
-            </View>
+            </HStack>
             <SyntheseComponent></SyntheseComponent>
             <CounterDSAComponent></CounterDSAComponent>
             <CounterComponent nameInjection={"Adrenaline"} time_number={240000} timer={true}></CounterComponent>
